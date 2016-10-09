@@ -1,6 +1,6 @@
 const CANVAS_WIDTH = 900;
 const CANVAS_HEIGHT  = 450;
-const canvas = document.getElementById("c");
+const canvas = document.getElementById("cMain");
 let ctx = canvas.getContext('2d');
 let lowerBottom = CANVAS_HEIGHT -25,
     highestTop  = 25;
@@ -22,7 +22,7 @@ function drawLines() {
 }
 
 drawLines();
-setInterval(drawLines,600);
+//setInterval(drawLines,600);
 
 
 
