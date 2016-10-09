@@ -131,7 +131,7 @@ table {
         color: #146C80;
     }
 }
-body > canvas{
+#c{
     margin-left: 17%;
     margin-top: 2%;
     border: solid rgb(210,210,210);
@@ -141,4 +141,11 @@ body {
     background-image:url('../resources/images/background.png');
     -webkit-background-size:cover;
     background-size:cover;
+}
+#cMain{
+    margin-left: 17%;
+    margin-top: -60%;
+    border: solid rgb(210,210,210);
+    border-radius: 10px;
+    margin-bottom:1%;
 }
