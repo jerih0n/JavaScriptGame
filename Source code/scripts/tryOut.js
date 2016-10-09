@@ -1,4 +1,7 @@
 function animationStart() {
+    /* let can = document.getElementById('c');
+     let c = can.getContext('2d');*/
+
     let w = c.width = 900,
         h = c.height = 450,
         ctx = c.getContext( '2d' ),
