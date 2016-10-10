@@ -95,12 +95,14 @@ function starGame() {  // The main function of the game Engine
                     // location.y2 -= progress - 40 ;
                     // location.y3 -= progress  - 40;
                     location.y1=35;
-                    location.y2=35;
-                    location.y3=85;
+                    location.y2=85;
+                    location.y3=35;
                     triangle.clear();
                     drawLines();
-                    triangle.draw(location);
-                    isTriangleFlipped=false;
+                    triangle.drawUpsideDown(location);
+                    location.y1=35;
+                    location.y2=35;
+                    location.y3=85;
                     return;
                 }
                 window.requestAnimationFrame(loop);
@@ -177,8 +179,8 @@ function starGame() {  // The main function of the game Engine
             location.x3 += xCoordinateMoveSpeed;
             if(location.x2 >= 900) {
                 location.x2 = 900;
-                     location.x3=875;
-                     location.x1=850;
+                location.x3=875;
+                location.x1=850;
                 xCoordinateMoveSpeed=0;
             }
             if(isTriangleFlipped) { //Checks if the triangle is normal or upside down
