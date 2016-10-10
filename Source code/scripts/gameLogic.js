@@ -1,7 +1,9 @@
-function starGame() {
+function starGame() {  // The main function of the game Engine
     const CANVAS_WIDTH = 900;
     const CANVAS_HEIGHT  = 450;
     const canvas = document.getElementById("cMain");
+    let obstacleCanvas = document.getElementById('c').getContext('2d');
+    let lastMove = null;
     let xCoordinateMoveSpeed = 10;
     let isTriangleFlipped = false;
     let ctx = canvas.getContext('2d');
@@ -10,15 +12,20 @@ function starGame() {
     let triangleFlips = 0;
     let currentLocation = {
         x1:100,
-        y1:419,
+        y1:419,    /*  The coordinates of the triangle for easy control in the code below
+                        */
         x2:150,
         y2:419,
         x3:125,
         y3:369
         };
-    let triangle = {
+    let obstacles =  {
+       
+    };
+    let triangle = {  // Triangle object -> simply fuctions
 
         draw: function drawTriangle(location){
+            // Drawing triangle with red    hypotenuse station on the floor - the red line
             ctx.beginPath();
             ctx.moveTo(location.x1,location.y1);
             ctx.lineWidth=5;
@@ -37,10 +44,31 @@ function starGame() {
             ctx.lineTo(location.x1,location.y1);
             ctx.stroke();
         },
+        drawUpsideDown: function (location) {
+            // Drawing upside down triangle with blue hypotenuse. Must be station only on the ceil
+            ctx.beginPath();
+            ctx.moveTo(location.x1,location.y3);
+            ctx.strokeStyle='blue';
+            ctx.lineTo(location.x2,location.y3);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(location.x2,location.y3);
+            ctx.strokeStyle='yellow';
+            ctx.lineTo(location.x3,location.y2);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(location.x3,location.y2);
+            ctx.strokeStyle='red';
+            ctx.lineTo(location.x1,location.y3);
+            ctx.stroke();
+
+        },
         clear: function clearTriangle() {
             ctx.clearRect(0,0,900,450);
+            //Clear the triangle . NOTE: In fact this clears all the canvas so maybe need fix ?
         },
         upperFlip: function upperFlip(location) {
+            //Animated movement that draws upside down triangle
             let progress=0;
             window.requestAnimationFrame(function loop(){
                 triangle.clear();
@@ -60,61 +88,88 @@ function starGame() {
                 ctx.strokeStyle='red';
                 ctx.lineTo(location.x1,location.y3-progress);
                 ctx.stroke();
-                progress+=40;
-                if(location.y3-progress<20) return;
+                progress+=40; //The step that changes all of the y coordinates
+                if(location.y3-progress<20){
+                    location.y1 -= progress -40 ;
+                    location.y2 -= progress - 40 ;
+                    location.y3 -= progress  - 40;
+                    return;
+                }
                 window.requestAnimationFrame(loop);
 
             })
         },
         downFlip: function (location) {
+            //Animated movement that draws normal triangle on the floor with red hypotenuse
             let progress=0;
             window.requestAnimationFrame(function loop(){
                 triangle.clear();
                 drawLines();
                 ctx.beginPath();
-                ctx.moveTo(location.x1,location.y3+progress);
-                ctx.strokeStyle='blue';
-                ctx.lineTo(location.x2,location.y3+progress);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(location.x2,location.y3+progress);
-                ctx.strokeStyle='yellow';
-                ctx.lineTo(location.x3,location.y2+progress);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(location.x3,location.y2+progress);
+                ctx.moveTo(location.x1,location.y1+progress);
                 ctx.strokeStyle='red';
-                ctx.lineTo(location.x1,location.y3+progress);
+                ctx.lineTo(location.x2,location.y2+progress);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(location.x2,location.y2+progress);
+                ctx.strokeStyle='yellow';
+                ctx.lineTo(location.x3,location.y3+progress);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(location.x3,location.y3+progress);
+                ctx.strokeStyle='blue';
+                ctx.lineTo(location.x1,location.y1+progress);
                 ctx.stroke();
                 progress+=40;
-                if(location.y3+progress>400) return;
+                if(location.y3+progress>400) {
+                    location.y1 += progress-40;
+                    location.y2 += progress-40;
+                    location.y3 += progress-40;
+                    return;
+                }
                 window.requestAnimationFrame(loop);
 
             })
 
         },
-        moveLeft : function (location) {
+        moveLeft : function (location,isTriangleFlipped) {
+            // Moving the triangle left form the current location
+            //TODO Bounders have bug! Triangle must not go out of the canvas
             location.x1 -= xCoordinateMoveSpeed;
             //TODO : Bounders
-            if(location.x1 <=0 ) {
+            if(location.x1 <1 ) {
                 location.x1 = 0;
+
             }
             location.x2 -= xCoordinateMoveSpeed;
             location.x3 -= xCoordinateMoveSpeed;
-            triangle.draw(location);
-        },
-        moveRight : function (location) {
+            if(isTriangleFlipped) {//Checks if the triangle is normal or upside down
 
+                triangle.drawUpsideDown(location)
+            }else {
+                triangle.draw(location);
+            }
+
+        },
+        moveRight : function (location,isTriangleFlipped) {
+            // Moving the triangle left form the current location
+            //TODO Bounders have bug! Triangle must not go out of the canvas
             location.x1 += xCoordinateMoveSpeed;
             location.x2 += xCoordinateMoveSpeed;
             location.x3 += xCoordinateMoveSpeed;
             if(location.x3 >= 900) {
                 location.x3 = 900;
             }
-            triangle.draw(location);
+            if(isTriangleFlipped) { //Checks if the triangle is normal or upside down
+                triangle.drawUpsideDown(location);
+            }else {
+                triangle.draw(location);
+            }
+
         }
+        //TODO jump : function()...
     };
-    function drawLines() {
+    function drawLines() { //Drawing the ceil and the top lines
         ctx.beginPath();
         ctx.moveTo(0,25);
         ctx.lineTo(CANVAS_WIDTH,highestTop);
@@ -129,48 +184,44 @@ function starGame() {
         ctx.lineTo(CANVAS_WIDTH,lowerBottom);
         ctx.stroke();
     }
-
     drawLines();
     triangle.draw(currentLocation); //By default values
-//rotateTriangle();
-    document.addEventListener("keydown",performAction);
-function performAction(event) {
+    document.addEventListener("keydown",performAction); //Event listener for keypress event. Every time
+    //a key is pressed this event is fired.
+function performAction(event) { //Cheking  if the key is one of the following and performin action
     switch (event.code) {
         case "Space" :
             if(triangleFlips %2 == 0) {
                 triangle.upperFlip(currentLocation);
+                isTriangleFlipped = true;
             }else {
                 triangle.downFlip(currentLocation);
+                isTriangleFlipped = false;
             }
 
             triangleFlips ++;
             break;
         case "ArrowLeft" :
-            if(isTriangleFlipped) {
-                //TODO:Logic moving flipped triangle
-            }
-            triangle.clear();
-            drawLines(); // TODO : ADDING 3th canvas to stop lines and obstacles from deleting.
-            triangle.moveLeft(currentLocation);
-            break;
-        case "ArrowUp" : //TODO jump
-            break;
-        case "ArrowRight" :
-            if(isTriangleFlipped) {
-                //TODO:Logic for moving flipped triangle
-            }
             triangle.clear();
             drawLines();
-            triangle.moveRight(currentLocation);
-
+            triangle.moveLeft(currentLocation,isTriangleFlipped);
+            break;
+        case "ArrowUp" :
+                    //TODO: jump
+            break;
+        case "ArrowRight" :
+            triangle.clear();
+            drawLines();
+            triangle.moveRight(currentLocation,isTriangleFlipped);
+            break;
+        default :
             break;
 
     }
 }
-//setInterval(drawLines,600);
 
 }
-starGame();
+starGame(); // Starting the game  
 
 
 
