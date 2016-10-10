@@ -1,11 +1,12 @@
+
 function animationStart() {
     /* let can = document.getElementById('c');
      let c = can.getContext('2d');*/
 
-    let w = c.width = 900,
+
+    let w=c.width=900,
         h = c.height = 450,
         ctx = c.getContext( '2d' ),
-
         opts = {
 
             len: 20,
@@ -25,7 +26,7 @@ function animationStart() {
             baseLightInputMultiplier: .01,
             addedLightInputMultiplier: .02,
 
-            cx: w / 2,
+            cx: w /2,
             cy: h / 2,
             repaintAlpha: .04,
             hueChange: .1
@@ -33,7 +34,7 @@ function animationStart() {
 
         tick = 0,
         lines = [],
-        dieX = w / 2 / opts.len,
+        dieX = w/ 2 / opts.len,
         dieY = h / 2 / opts.len,
 
         baseRad = Math.PI * 2 / 6;
@@ -77,7 +78,7 @@ function animationStart() {
         this.cumulativeTime = 0;
 
         this.beginPhase();
-    }
+    };
     Line.prototype.beginPhase = function(){
 
         this.x += this.addedX;
@@ -92,7 +93,7 @@ function animationStart() {
 
         if( Math.random() < opts.dieChance || this.x > dieX || this.x < -dieX || this.y > dieY || this.y < -dieY )
             this.reset();
-    }
+    };
     Line.prototype.step = function(){
 
         ++this.time;
@@ -112,7 +113,7 @@ function animationStart() {
 
         if( Math.random() < opts.sparkChance )
             ctx.fillRect( opts.cx + ( this.x + x ) * opts.len + Math.random() * opts.sparkDist * ( Math.random() < .5 ? 1 : -1 ) - opts.sparkSize / 2, opts.cy + ( this.y + y ) * opts.len + Math.random() * opts.sparkDist * ( Math.random() < .5 ? 1 : -1 ) - opts.sparkSize / 2, opts.sparkSize, opts.sparkSize )
-    }
+    };
     loop();
 
     window.addEventListener( 'resize', function(){
@@ -131,4 +132,7 @@ function animationStart() {
     });
 }
 
-animationStart();
+    animationStart();
+
+
+
