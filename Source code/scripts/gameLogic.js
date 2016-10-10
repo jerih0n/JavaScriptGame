@@ -6,6 +6,7 @@ function starGame() {  // The main function of the game Engine
     let lastMove = null;
     let xCoordinateMoveSpeed = 10;
     let isTriangleFlipped = false;
+    let disableMovement =false;
     let ctx = canvas.getContext('2d');
     let lowerBottom = CANVAS_HEIGHT -25,
         highestTop  = 25;
@@ -90,9 +91,16 @@ function starGame() {  // The main function of the game Engine
                 ctx.stroke();
                 progress+=40; //The step that changes all of the y coordinates
                 if(location.y3-progress<20){
-                    location.y1 -= progress -40 ;
-                    location.y2 -= progress - 40 ;
-                    location.y3 -= progress  - 40;
+                    // location.y1 -= progress -40 ;
+                    // location.y2 -= progress - 40 ;
+                    // location.y3 -= progress  - 40;
+                    location.y1=35;
+                    location.y2=35;
+                    location.y3=85;
+                    triangle.clear();
+                    drawLines();
+                    triangle.draw(location);
+                    isTriangleFlipped=false;
                     return;
                 }
                 window.requestAnimationFrame(loop);
@@ -122,9 +130,15 @@ function starGame() {  // The main function of the game Engine
                 ctx.stroke();
                 progress+=40;
                 if(location.y3+progress>400) {
-                    location.y1 += progress-40;
-                    location.y2 += progress-40;
-                    location.y3 += progress-40;
+                    // location.y1 += progress-40;
+                    // location.y2 += progress-40;
+                    // location.y3 += progress-40;
+                    location.y1=419;
+                    location.y2=419;
+                    location.y3=369;
+                    triangle.clear();
+                    drawLines();
+                    triangle.draw(location);
                     return;
                 }
                 window.requestAnimationFrame(loop);
@@ -135,11 +149,14 @@ function starGame() {  // The main function of the game Engine
         moveLeft : function (location,isTriangleFlipped) {
             // Moving the triangle left form the current location
             //TODO Bounders have bug! Triangle must not go out of the canvas
+            xCoordinateMoveSpeed=10;
             location.x1 -= xCoordinateMoveSpeed;
             //TODO : Bounders
             if(location.x1 <1 ) {
                 location.x1 = 0;
-
+                location.x2=50;
+                 location.x3=25;
+                xCoordinateMoveSpeed=0;
             }
             location.x2 -= xCoordinateMoveSpeed;
             location.x3 -= xCoordinateMoveSpeed;
@@ -154,11 +171,15 @@ function starGame() {  // The main function of the game Engine
         moveRight : function (location,isTriangleFlipped) {
             // Moving the triangle left form the current location
             //TODO Bounders have bug! Triangle must not go out of the canvas
+            xCoordinateMoveSpeed=10;
             location.x1 += xCoordinateMoveSpeed;
             location.x2 += xCoordinateMoveSpeed;
             location.x3 += xCoordinateMoveSpeed;
-            if(location.x3 >= 900) {
-                location.x3 = 900;
+            if(location.x2 >= 900) {
+                location.x2 = 900;
+                     location.x3=875;
+                     location.x1=850;
+                xCoordinateMoveSpeed=0;
             }
             if(isTriangleFlipped) { //Checks if the triangle is normal or upside down
                 triangle.drawUpsideDown(location);
@@ -202,9 +223,11 @@ function performAction(event) { //Cheking  if the key is one of the following an
             triangleFlips ++;
             break;
         case "ArrowLeft" :
-            triangle.clear();
-            drawLines();
-            triangle.moveLeft(currentLocation,isTriangleFlipped);
+           // if(currentLocation.x1 >=0) {
+                triangle.clear();
+                drawLines();
+                triangle.moveLeft(currentLocation, isTriangleFlipped);
+           // }
             break;
         case "ArrowUp" :
                     //TODO: jump
