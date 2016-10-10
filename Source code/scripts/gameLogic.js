@@ -100,6 +100,7 @@ function starGame() {  // The main function of the game Engine
                     triangle.clear();
                     drawLines();
                     triangle.drawUpsideDown(location);
+                    isTriangleFlipped=false;
                     location.y1=35;
                     location.y2=35;
                     location.y3=85;
