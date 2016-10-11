@@ -20,9 +20,7 @@ function starGame() {  // The main function of the game Engine
         x3:125,
         y3:369
         };
-    let obstacles =  {
-       
-    };
+
     let triangle = {  // Triangle object -> simply fuctions
 
         draw: function drawTriangle(location){
@@ -154,7 +152,6 @@ function starGame() {  // The main function of the game Engine
         },
         moveLeft : function (location,isTriangleFlipped) {
             // Moving the triangle left form the current location
-            //TODO Bounders have bug! Triangle must not go out of the canvas
             xCoordinateMoveSpeed=10;
             location.x1 -= xCoordinateMoveSpeed;
             //TODO : Bounders
@@ -196,6 +193,7 @@ function starGame() {  // The main function of the game Engine
         }
         //TODO jump : function()...
     };
+    
     function drawLines() { //Drawing the ceil and the top lines
         ctx.beginPath();
         ctx.moveTo(0,25);
@@ -213,6 +211,7 @@ function starGame() {  // The main function of the game Engine
     }
     drawLines();
     triangle.draw(currentLocation); //By default values
+
     document.addEventListener("keydown",performAction); //Event listener for keypress event. Every time
     //a key is pressed this event is fired.
 function performAction(event) { //Cheking  if the key is one of the following and performin action
