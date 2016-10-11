@@ -190,43 +190,8 @@ function starGame() {  // The main function of the game Engine
                 triangle.draw(location);
             }
 
-        },
-                 Jump : function (location,isTriangleFlipped) {
-            yCoordinateMoveSpeed=20;
-            location.y1 -= yCoordinateMoveSpeed;
-            location.y2 -= yCoordinateMoveSpeed;
-            location.y3 -= yCoordinateMoveSpeed;
-            if(location.y2 <=31 ) {
-                location.y2= 31;
-                location.y3= 81; 
-                location.y1= 31;
-                yCoordinateMoveSpeed=0;
-            }
-            if(isTriangleFlipped) { //Checks if the triangle is normal or upside down
-                triangle.drawUpsideDown(location);
-            }else {
-                triangle.draw(location);
-            }
-		
-		 },
-		  MoveDown : function (location,isTriangleFlipped) {
-            yCoordinateMoveSpeed=20;
-            location.y1 += yCoordinateMoveSpeed;
-            location.y2 += yCoordinateMoveSpeed;
-            location.y3 += yCoordinateMoveSpeed;
-            if(location.y2 >= 419) {
-                location.y2= 419;
-                location.y3= 369; 
-                location.y1= 419;
-                yCoordinateMoveSpeed=0;
-            }
-            if(isTriangleFlipped) { //Checks if the triangle is normal or upside down
-                triangle.drawUpsideDown(location);
-            }else {
-                triangle.draw(location);
-            }
-		 },
-
+        }
+        //TODO jump : function()...
     };
     
     function drawLines() { //Drawing the ceil and the top lines
@@ -267,20 +232,13 @@ function performAction(event) { //Cheking  if the key is one of the following an
                 drawLines();
                 triangle.moveLeft(currentLocation, isTriangleFlipped);
             break;
-         case "ArrowUp" :
-            triangle.clear();
-            drawLines();
-			triangle.Jump(currentLocation, isTriangleFlipped);
+        case "ArrowUp" :
+                    //TODO: jump
             break;
         case "ArrowRight" :
             triangle.clear();
             drawLines();
             triangle.moveRight(currentLocation,isTriangleFlipped);
-            break;
-            case "ArrowDown" :
-                triangle.clear();
-                drawLines();
-                triangle.MoveDown(currentLocation, isTriangleFlipped);
             break;
         default :
             break;
