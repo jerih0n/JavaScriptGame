@@ -27,7 +27,7 @@ function animationStart() {
             addedLightInputMultiplier: .02,
 
             cx: w /2,
-            cy: h / 2,
+            cy: h /2,
             repaintAlpha: .04,
             hueChange: .1
         },
@@ -35,7 +35,7 @@ function animationStart() {
         tick = 0,
         lines = [],
         dieX = w/ 2 / opts.len,
-        dieY = h / 2 / opts.len,
+        dieY = (h -200)/ 2 / opts.len,
 
         baseRad = Math.PI * 2 / 6;
 
@@ -93,6 +93,7 @@ function animationStart() {
 
         if( Math.random() < opts.dieChance || this.x > dieX || this.x < -dieX || this.y > dieY || this.y < -dieY )
             this.reset();
+        
     };
     Line.prototype.step = function(){
 
