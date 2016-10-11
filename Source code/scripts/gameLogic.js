@@ -100,10 +100,10 @@ function starGame() {  // The main function of the game Engine
                     triangle.clear();
                     drawLines();
                     triangle.drawUpsideDown(location);
-                    isTriangleFlipped=false;
-                    location.y1=35;
-                    location.y2=35;
-                    location.y3=85;
+                    isTriangleFlipped=true;
+                    // location.y1=35;
+                    // location.y2=35;
+                    // location.y3=85;
                     return;
                 }
                 window.requestAnimationFrame(loop);
@@ -113,6 +113,9 @@ function starGame() {  // The main function of the game Engine
         downFlip: function (location) {
             //Animated movement that draws normal triangle on the floor with red hypotenuse
             let progress=0;
+            let temp = location.y2;
+            location.y2=location.y3;
+            location.y3=temp;
             window.requestAnimationFrame(function loop(){
                 triangle.clear();
                 drawLines();
@@ -226,11 +229,9 @@ function performAction(event) { //Cheking  if the key is one of the following an
             triangleFlips ++;
             break;
         case "ArrowLeft" :
-           // if(currentLocation.x1 >=0) {
                 triangle.clear();
                 drawLines();
                 triangle.moveLeft(currentLocation, isTriangleFlipped);
-           // }
             break;
         case "ArrowUp" :
                     //TODO: jump
