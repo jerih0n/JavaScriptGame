@@ -173,7 +173,6 @@ function starGame() {  // The main function of the game Engine
         },
         moveRight : function (location,isTriangleFlipped) {
             // Moving the triangle left form the current location
-            //TODO Bounders have bug! Triangle must not go out of the canvas
             xCoordinateMoveSpeed=20;
             location.x1 += xCoordinateMoveSpeed;
             location.x2 += xCoordinateMoveSpeed;
@@ -191,84 +190,157 @@ function starGame() {  // The main function of the game Engine
             }
 
         },
-		Jump : function (location,isTriangleFlipped) {
-           let progress=0;
-            window.requestAnimationFrame(function loop(){
-                triangle.clear();
-                drawLines();
-                ctx.beginPath();
-                ctx.moveTo(location.x1,location.y3-progress);
-                ctx.strokeStyle='red';
-                ctx.lineTo(location.x2,location.y3-progress);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(location.x2,location.y3-progress);
-                ctx.strokeStyle='red';
-                ctx.lineTo(location.x3,location.y2-progress);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(location.x3,location.y2-progress);
-                ctx.strokeStyle='red';
-                ctx.lineTo(location.x1,location.y3-progress);
-                ctx.stroke();
-                progress+=40; //The step that changes all of the y coordinates
-                if(location.y3-progress<20){
-
-                    location.y1=185;
-                    location.y2=235;
-                    location.y3=185;
+		jump : function (location,isTriangleFlipped) {
+            if(!isTriangleFlipped) {
+                let progress=0;
+                window.requestAnimationFrame(function loop(){
                     triangle.clear();
                     drawLines();
-                    triangle.drawUpsideDown(location);
-                    isTriangleFlipped=true;
-                    // location.y1=35;
-                    // location.y2=35;
-                    // location.y3=85;
-                    return;
-                }
-                window.requestAnimationFrame(loop);
+                    ctx.beginPath();
+                    ctx.moveTo(location.x1,location.y1-progress);
+                    ctx.strokeStyle='red';
+                    ctx.lineTo(location.x2,location.y2-progress);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(location.x2,location.y2-progress);
+                    ctx.strokeStyle='yellow';
+                    ctx.lineTo(location.x3,location.y3-progress);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(location.x3,location.y3-progress);
+                    ctx.strokeStyle='blue';
+                    ctx.lineTo(location.x1,location.y1-progress);
+                    ctx.stroke();
+                    progress+=40; //The step that changes all of the y coordinates
+                    if(location.y3-progress<140){
 
-            })
-		
-		 },
-		  MoveDown : function (location,isTriangleFlipped) {
-            let progress=0;
-            let temp = location.y2;
-            location.y2=location.y3;
-            location.y3=temp;
-            window.requestAnimationFrame(function loop(){
-                triangle.clear();
-                drawLines();
-                ctx.beginPath();
-                ctx.moveTo(location.x1,location.y1+progress);
-                ctx.strokeStyle='red';
-                ctx.lineTo(location.x2,location.y2+progress);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(location.x2,location.y2+progress);
-                ctx.strokeStyle='red';
-                ctx.lineTo(location.x3,location.y3+progress);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(location.x3,location.y3+progress);
-                ctx.strokeStyle='red';
-                ctx.lineTo(location.x1,location.y1+progress);
-                ctx.stroke();
-                progress+=40;
-                if(location.y3+progress>400) {
-         
-                    location.y1=419;
-                    location.y2=419;
-                    location.y3=369;
+                        location.y1=235;
+                        location.y2=235;
+                        location.y3=185;
+                        triangle.clear();
+                        drawLines();
+                        triangle.draw(location);
+                        isTriangleFlipped = false;
+                        triangle.moveDown(location,isTriangleFlipped);
+                        return;
+                    }
+                    window.requestAnimationFrame(loop);
+
+                })
+
+            }else {
+                let progress=0;
+                window.requestAnimationFrame(function loop(){
                     triangle.clear();
                     drawLines();
-                    triangle.draw(location);
-                    return;
-                }
-                window.requestAnimationFrame(loop);
-                window.clearInterval(myVar);
-            })
+                    ctx.beginPath();
+                    ctx.moveTo(location.x1,location.y3+progress);
+                    ctx.strokeStyle='blue';
+                    ctx.lineTo(location.x2,location.y3+progress);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(location.x2,location.y3+progress);
+                    ctx.strokeStyle='yellow';
+                    ctx.lineTo(location.x3,location.y2+progress);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(location.x3,location.y2+progress);
+                    ctx.strokeStyle='red';
+                    ctx.lineTo(location.x1,location.y3+progress);
+                    ctx.stroke();
+                    progress+=40; //The step that changes all of the y coordinates
+                    if(location.y3+progress>200){
+
+                        location.y1=235;
+                        location.y2=235;
+                        location.y3=185;
+                        triangle.clear();
+                        drawLines();
+                        triangle.drawUpsideDown(location);
+                        isTriangleFlipped = true;
+                        triangle.moveDown(location,isTriangleFlipped);
+                        return;
+                    }
+                    window.requestAnimationFrame(loop);
+
+                })
+
+
+            }
+
 		 },
+		  moveDown : function (location,isTriangleFlipped) {
+              if(!isTriangleFlipped) {
+                  let progress=0;
+                  window.requestAnimationFrame(function loop(){
+                      triangle.clear();
+                      drawLines();
+                      ctx.beginPath();
+                      ctx.moveTo(location.x1,location.y1+progress);
+                      ctx.strokeStyle='red';
+                      ctx.lineTo(location.x2,location.y2+progress);
+                      ctx.stroke();
+                      ctx.beginPath();
+                      ctx.moveTo(location.x2,location.y2+progress);
+                      ctx.strokeStyle='yellow';
+                      ctx.lineTo(location.x3,location.y3+progress);
+                      ctx.stroke();
+                      ctx.beginPath();
+                      ctx.moveTo(location.x3,location.y3+progress);
+                      ctx.strokeStyle='blue';
+                      ctx.lineTo(location.x1,location.y1+progress);
+                      ctx.stroke();
+                      progress+=40;
+                      if(location.y3+progress>400) {
+
+                          location.y1=419;
+                          location.y2=419;
+                          location.y3=369;
+                          triangle.clear();
+                          drawLines();
+                          triangle.draw(location);
+                          return;
+                      }
+                      window.requestAnimationFrame(loop);
+                      window.clearInterval(myVar);
+                  });
+              }else {
+                  let progress=0;
+                  window.requestAnimationFrame(function loop(){
+                      triangle.clear();
+                      drawLines();
+                      ctx.beginPath();
+                      ctx.moveTo(location.x1,location.y3-progress);
+                      ctx.strokeStyle='blue';
+                      ctx.lineTo(location.x2,location.y3-progress);
+                      ctx.stroke();
+                      ctx.beginPath();
+                      ctx.moveTo(location.x2,location.y3-progress);
+                      ctx.strokeStyle='yellow';
+                      ctx.lineTo(location.x3,location.y2-progress);
+                      ctx.stroke();
+                      ctx.beginPath();
+                      ctx.moveTo(location.x3,location.y2-progress);
+                      ctx.strokeStyle='red';
+                      ctx.lineTo(location.x1,location.y3-progress);
+                      ctx.stroke();
+                      progress+=40;
+                      if(location.y3-progress<40) {
+
+                          location.y1=40;
+                          location.y2=90;
+                          location.y3=40;
+                          triangle.clear();
+                          drawLines();
+                          triangle.drawUpsideDown(location);
+                          return;
+                      }
+                      window.requestAnimationFrame(loop);
+                  });
+
+              }
+
+		 }
  
     };
     
@@ -298,11 +370,9 @@ function performAction(event) { //Cheking  if the key is one of the following an
             if(triangleFlips %2 == 0) {
                 triangle.upperFlip(currentLocation);
                 isTriangleFlipped = true;
-				window.clearInterval(myVar);
             }else {
                 triangle.downFlip(currentLocation);
                 isTriangleFlipped = false;
-				 window.clearInterval(myVar);
             }
 
             triangleFlips ++;
@@ -313,24 +383,22 @@ function performAction(event) { //Cheking  if the key is one of the following an
                 triangle.moveLeft(currentLocation, isTriangleFlipped);
             break;
          case "ArrowUp" :
-            triangle.clear();
-            drawLines();
-			triangle.Jump(currentLocation, isTriangleFlipped);
-			myVar = window.setInterval(function(){
-                triangle.MoveDown(currentLocation, isTriangleFlipped)}, 2000);
-					
-			break;
+             if(!isTriangleFlipped) {
+                 triangle.clear();
+                 drawLines();
+                 triangle.jump(currentLocation, isTriangleFlipped);
+             }
+
             break;
         case "ArrowRight" :
             triangle.clear();
             drawLines();
             triangle.moveRight(currentLocation,isTriangleFlipped);
             break;
-				case "ArrowDown" :
-                triangle.clear();
-                drawLines();
-                triangle.MoveDown(currentLocation, isTriangleFlipped);
-				 window.clearInterval(myVar);
+        case "ArrowDown" :
+            if(isTriangleFlipped){
+                triangle.jump(currentLocation,isTriangleFlipped)
+            }
             break;
         default :
             break;
