@@ -24,7 +24,8 @@ function drawSpikesDown() {
             clearAll();
             spikeDrawer(spikeOriginalCoords,progress);
             progress+=2;
-            if(spikeOriginalCoords-progress<=0){
+            if(spikeOriginalCoords.x2-progress<=0){
+                clearAll();
                 return;
             }
             window.requestAnimationFrame(loop);
@@ -56,7 +57,8 @@ function drawSpikesUp() {
             clearAll();
             spikeDrawer(spikeOriginalCoords,progress);
             progress+=2;
-            if(spikeOriginalCoords-progress<=0){
+            if(spikeOriginalCoords.x2-progress<=0){
+                clearAll();
                 return;
             }
             window.requestAnimationFrame(loop);
@@ -64,8 +66,9 @@ function drawSpikesUp() {
     }
     animate();
 }
-drawSpikesDown();
-drawSpikesUp();
+//for(let i =0;i<3;i++){
+    drawSpikesUp();
+//}
 function clearAll(){
     ctxObs.clearRect(0,0,900,450);
 }
