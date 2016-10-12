@@ -1,4 +1,7 @@
 function starGame() {  // The main function of the game Engine
+    let ctxObs=document.getElementById("obs").getContext("2d");
+    let allUpperSpikes = [];
+    let allDownSpikes = [];
     const CANVAS_WIDTH = 900;
     const CANVAS_HEIGHT  = 450;
     const canvas = document.getElementById("cMain");
@@ -211,7 +214,7 @@ function starGame() {  // The main function of the game Engine
                     ctx.strokeStyle='blue';
                     ctx.lineTo(location.x1,location.y1-progress);
                     ctx.stroke();
-                    progress+=40; //The step that changes all of the y coordinates
+                    progress+=10; //The step that changes all of the y coordinates
                     if(location.y3-progress<140){
 
                         location.y1=235;
@@ -248,7 +251,7 @@ function starGame() {  // The main function of the game Engine
                     ctx.strokeStyle='red';
                     ctx.lineTo(location.x1,location.y3+progress);
                     ctx.stroke();
-                    progress+=40; //The step that changes all of the y coordinates
+                    progress+=10; //The step that changes all of the y coordinates
                     if(location.y3+progress>200){
 
                         location.y1=235;
@@ -290,7 +293,7 @@ function starGame() {  // The main function of the game Engine
                       ctx.strokeStyle='blue';
                       ctx.lineTo(location.x1,location.y1+progress);
                       ctx.stroke();
-                      progress+=40;
+                      progress+=10;
                       if(location.y3+progress>400) {
 
                           location.y1=419;
@@ -324,7 +327,7 @@ function starGame() {  // The main function of the game Engine
                       ctx.strokeStyle='red';
                       ctx.lineTo(location.x1,location.y3-progress);
                       ctx.stroke();
-                      progress+=40;
+                      progress+=10;
                       if(location.y3-progress<40) {
 
                           location.y1=40;
@@ -361,7 +364,8 @@ function starGame() {  // The main function of the game Engine
     }
     drawLines();
     triangle.draw(currentLocation); //By default values
-
+    let spike = new Spike(ctxObs);
+    spike.drawSpikesDown();
     document.addEventListener("keydown",performAction); //Event listener for keypress event. Every time
     //a key is pressed this event is fired.
 function performAction(event) { //Cheking  if the key is one of the following and performin action
@@ -402,10 +406,9 @@ function performAction(event) { //Cheking  if the key is one of the following an
             break;
         default :
             break;
-
     }
 }
-
+    
 }
 starGame(); // Starting the game 
 
